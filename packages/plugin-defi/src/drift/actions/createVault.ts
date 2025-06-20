@@ -45,41 +45,41 @@ const createDriftVaultAction: Action = {
       .int()
       .min(1, "Redeem period must be at least 1")
       .describe(
-        "Number of days to wait before funds deposited in a vault can be redeemed ",
+        "Number of days to wait before funds deposited in a vault can be redeemed "
       ),
     maxTokens: z
       .number()
       .int()
       .min(100, "Max tokens must be at least 100")
       .describe(
-        "The maximum amount of tokens the vault will be accommodating. For example some vaults have a cap at 10 million USDC. This amount should be normal token amounts e.g 50 SOL, 100 USDC, etc",
+        "The maximum amount of tokens the vault will be accommodating. For example some vaults have a cap at 10 million USDC. This amount should be normal token amounts e.g 50 SOL, 100 USDC, etc"
       ),
     minDepositAmount: z
       .number()
       .positive()
       .describe(
-        "Minimum deposit amount in normal token values e.g 50 SOL, 100 USDC, etc",
+        "Minimum deposit amount in normal token values e.g 50 SOL, 100 USDC, etc"
       ),
     managementFee: z
       .number()
       .positive()
       .max(20)
       .describe(
-        "How much of a fee you'll be taking to manage depositors funds. This is in percentage e.g 2 for 2%",
+        "How much of a fee you'll be taking to manage depositors funds. This is in percentage e.g 2 for 2%"
       ),
     profitShare: z
       .number()
       .positive()
       .max(90)
-      .optional()
+      .nullable()
       .default(5)
       .describe(
-        "How much of the profit you'll be sharing with depositors. This is in percentage e.g 2 for 2%. Defaults to 5%",
+        "How much of the profit you'll be sharing with depositors. This is in percentage e.g 2 for 2%. Defaults to 5%"
       ),
-    hurdleRate: z.number().optional(),
+    hurdleRate: z.number().nullable(),
     permissioned: z
       .boolean()
-      .optional()
+      .nullable()
       .describe("Should the vault have a whitelist of not"),
   }),
   handler: async (agent, input) => {
@@ -89,7 +89,7 @@ const createDriftVaultAction: Action = {
         // @ts-expect-error - zod schema validation
         {
           ...input,
-        },
+        }
       );
 
       return {

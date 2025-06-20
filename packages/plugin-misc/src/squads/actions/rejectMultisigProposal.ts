@@ -30,7 +30,7 @@ const rejectMultisigProposalAction: Action = {
     ],
   ],
   schema: z.object({
-    proposalIndex: z.number().optional(),
+    proposalIndex: z.number().nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     const proposalIndex =

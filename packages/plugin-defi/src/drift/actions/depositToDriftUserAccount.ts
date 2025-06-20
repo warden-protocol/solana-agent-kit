@@ -33,7 +33,7 @@ const depositToDriftUserAccountAction: Action = {
       .number()
       .positive()
       .describe(
-        "The amount in tokens you'd like to deposit into your drift user account in normal token amounts e.g 50 SOL, 100 USDC, etc",
+        "The amount in tokens you'd like to deposit into your drift user account in normal token amounts e.g 50 SOL, 100 USDC, etc"
       ),
     symbol: z
       .string()
@@ -41,7 +41,7 @@ const depositToDriftUserAccountAction: Action = {
       .describe("The symbol of the token you'd like to deposit"),
     repay: z
       .boolean()
-      .optional()
+      .nullable()
       .default(false)
       .describe("Whether or not to repay the borrowed funds in the account"),
   }),
@@ -51,7 +51,7 @@ const depositToDriftUserAccountAction: Action = {
         agent,
         input.amount as number,
         input.symbol as string,
-        input.repay as boolean,
+        input.repay as boolean
       );
 
       return {

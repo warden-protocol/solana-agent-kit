@@ -191,11 +191,11 @@ export const elfaGetSmartMentionsAction: Action = {
     limit: z
       .number()
       .describe("Number of tweets to retrieve (default: 100)")
-      .optional(),
+      .nullable(),
     offset: z
       .number()
       .describe("Offset for pagination (default: 0)")
-      .optional(),
+      .nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input) => {
     const limit = input.limit ?? 100;
@@ -285,13 +285,13 @@ export const elfaGetTopMentionsByTickerAction: Action = {
     timeWindow: z
       .string()
       .min(1)
-      .optional()
+      .nullable()
       .describe("Time window for mentions (default: 1h)"),
-    page: z.number().optional().describe("Page number for pagination"),
-    pageSize: z.number().optional().describe("Number of mentions per page"),
+    page: z.number().nullable().describe("Page number for pagination"),
+    pageSize: z.number().nullable().describe("Number of mentions per page"),
     includeAccountDetails: z
       .boolean()
-      .optional()
+      .nullable()
       .describe("Include account details in the response"),
   }),
   handler: async (agent: SolanaAgentKit, input) => {
@@ -309,7 +309,7 @@ export const elfaGetTopMentionsByTickerAction: Action = {
       timeWindow,
       page,
       pageSize,
-      includeAccountDetails,
+      includeAccountDetails
     );
     return {
       status: "success",
@@ -394,7 +394,7 @@ export const elfaSearchMentionsByKeywordsAction: Action = {
     to: z.number().describe("End date as unix timestamp"),
     limit: z
       .number()
-      .optional()
+      .nullable()
       .describe("Number of tweets to retrieve (default: 20)"),
   }),
   handler: async (agent: SolanaAgentKit, input) => {
@@ -410,7 +410,7 @@ export const elfaSearchMentionsByKeywordsAction: Action = {
       keywords,
       from,
       to,
-      limit,
+      limit
     );
     return {
       status: "success",

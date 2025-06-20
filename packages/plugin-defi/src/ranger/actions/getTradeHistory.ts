@@ -5,10 +5,10 @@ import { SolanaAgentKit } from "solana-agent-kit";
 
 export const getTradeHistorySchema = z.object({
   public_key: z.string(),
-  platforms: z.array(z.string()).optional(),
-  symbols: z.array(z.string()).optional(),
-  start_time: z.string().optional(),
-  end_time: z.string().optional(),
+  platforms: z.array(z.string()).nullable(),
+  symbols: z.array(z.string()).nullable(),
+  start_time: z.string().nullable(),
+  end_time: z.string().nullable(),
 });
 
 export type GetTradeHistoryInput = z.infer<typeof getTradeHistorySchema>;

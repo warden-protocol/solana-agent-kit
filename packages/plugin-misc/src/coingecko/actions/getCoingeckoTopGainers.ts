@@ -53,7 +53,7 @@ const getCoingeckoTopGainersAction: Action = {
     ],
   ],
   schema: z.object({
-    duration: z.enum(["1h", "24h", "7d", "14d", "30d", "60d", "1y"]).optional(),
+    duration: z.enum(["1h", "24h", "7d", "14d", "30d", "60d", "1y"]).nullable(),
   }),
   handler: async (_agent, input) => {
     try {

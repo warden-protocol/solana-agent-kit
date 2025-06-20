@@ -33,7 +33,7 @@ const bidOnMagicEdenNFTAction: Action = {
   schema: z.object({
     tokenMint: z.string().min(1, "Token mint address is required"),
     price: z.number().positive("Price must be a positive number"),
-    auctionHouseAddress: z.string().optional(),
+    auctionHouseAddress: z.string().nullable(),
   }),
   handler: async (agent, input) => {
     const { tokenMint, price, auctionHouseAddress } = input;

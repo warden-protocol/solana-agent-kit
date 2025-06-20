@@ -55,7 +55,7 @@ const transferAction: Action = {
   schema: z.object({
     to: z.string().min(32, "Invalid Solana address"),
     amount: z.number().positive("Amount must be positive"),
-    mint: z.string().optional(),
+    mint: z.string().nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     const recipient = new PublicKey(input.to);

@@ -39,7 +39,7 @@ const getPopularMagicEdenCollections: Action = {
     ],
   ],
   schema: z.object({
-    timeRange: z.enum(["1h", "1d", "7d", "30d"]).optional().default("1d"),
+    timeRange: z.enum(["1h", "1d", "7d", "30d"]).nullable().default("1d"),
   }),
   handler: async (agent, input) => {
     const { timeRange } = input;

@@ -35,7 +35,7 @@ const availableDriftMarketsAction: Action = {
     marketType: z
       .enum(["spot", "perp"])
       .describe("Type of market to get")
-      .optional(),
+      .nullable(),
   }),
   handler: async (_agent, input) => {
     switch (input.marketType) {

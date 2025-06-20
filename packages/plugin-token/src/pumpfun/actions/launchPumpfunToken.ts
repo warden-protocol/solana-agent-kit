@@ -53,10 +53,10 @@ const launchPumpfunTokenAction: Action = {
       .min(1)
       .max(1000)
       .describe("Description of the token"),
-    imageUrl: z.string().url().describe("URL of the token image"),
-    twitter: z.string().optional().describe("Twitter handle (optional)"),
-    telegram: z.string().optional().describe("Telegram group link (optional)"),
-    website: z.string().url().optional().describe("Website URL (optional)"),
+    imageUrl: z.string().describe("URL of the token image"),
+    twitter: z.string().nullable().describe("Twitter handle (optional)"),
+    telegram: z.string().nullable().describe("Telegram group link (optional)"),
+    website: z.string().nullable().describe("Website URL (optional)"),
     initialLiquiditySOL: z
       .number()
       .min(0.0001)
@@ -86,14 +86,15 @@ const launchPumpfunTokenAction: Action = {
         input.initialLiquiditySOL,
         input.twitter,
         input.telegram,
-        input.website,
+        input.website
       );
 
       if ("signedTransaction" in result) {
         return {
           status: "success",
           transaction: result.signedTransaction,
-          message: "Successfully prepared transaction to launch token on Pump.fun. Please sign and send.",
+          message:
+            "Successfully prepared transaction to launch token on Pump.fun. Please sign and send.",
         };
       } else if ("txHash" in result) {
         return {

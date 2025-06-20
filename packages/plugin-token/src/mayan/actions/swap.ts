@@ -68,7 +68,7 @@ const swapAction: Action = {
       .string()
       .refine(
         (val) => !isNaN(+val) && Number(val).toString() === val,
-        "amount is not a valid number",
+        "amount is not a valid number"
       ),
     fromChain: z.enum([
       "solana",
@@ -94,7 +94,7 @@ const swapAction: Action = {
     toToken: z.string(),
     dstAddr: z.string().min(32, "Invalid destination address"),
     inputAmount: z.number().positive("Input amount must be positive"),
-    slippageBps: z.number().min(0).max(10000).optional(),
+    slippageBps: z.number().min(0).max(10000).nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     // TODO: should we allow evm to evm?
@@ -110,7 +110,7 @@ const swapAction: Action = {
       input.toChain,
       input.toToken,
       input.dstAddr,
-      input.slippageBps,
+      input.slippageBps
     );
 
     return {

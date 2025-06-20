@@ -36,9 +36,9 @@ export const getQuoteSchema = z.object({
     .describe("Type of position adjustment or quote context."),
   target_venues: z
     .array(z.enum(["Jupiter", "Flash", "Drift"]).describe("Venue"))
-    .optional(),
-  slippage_bps: z.number().int().optional(),
-  priority_fee_micro_lamports: z.number().int().optional(),
+    .nullable(),
+  slippage_bps: z.number().int().nullable(),
+  priority_fee_micro_lamports: z.number().int().nullable(),
 });
 
 export type GetQuoteInput = z.infer<typeof getQuoteSchema>;

@@ -36,14 +36,13 @@ const createWebhookAction: Action = {
       .describe("List of Solana account public keys to monitor"),
     webhookURL: z
       .string()
-      .url()
       .describe("The URL where Helius will send webhook notifications"),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     const response = await create_HeliusWebhook(
       agent,
       input.accountAddresses,
-      input.webhookURL,
+      input.webhookURL
     );
 
     return {

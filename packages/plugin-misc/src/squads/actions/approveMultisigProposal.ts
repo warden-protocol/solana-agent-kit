@@ -32,7 +32,7 @@ const approveMultisigProposalAction: Action = {
     ],
   ],
   schema: z.object({
-    transactionIndex: z.number().optional(),
+    transactionIndex: z.number().nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     const tx = await multisig_approve_proposal(agent, input.transactionIndex);

@@ -34,14 +34,14 @@ const perpMarktetFundingRateAction: Action = {
       .string()
       .toUpperCase()
       .describe("Symbol of the perpetual market"),
-    period: z.enum(["year", "hour"]).default("hour").optional(),
+    period: z.enum(["year", "hour"]).default("hour").nullable(),
   }),
   handler: async (agent, input) => {
     try {
       const data = await calculatePerpMarketFundingRate(
         agent,
         input.marketSymbol,
-        input.period,
+        input.period
       );
 
       return {

@@ -80,15 +80,15 @@ const getAssetsByAuthorityAction: Action = {
         sortBy: z.enum(["created", "updated", "recentAction", "none"]),
         sortDirection: z.enum(["asc", "desc"]),
       })
-      .optional(),
-    limit: z.number().optional(),
-    page: z.number().optional(),
-    before: z.string().optional(),
-    after: z.string().optional(),
+      .nullable(),
+    limit: z.number().nullable(),
+    page: z.number().nullable(),
+    before: z.string().nullable(),
+    after: z.string().nullable(),
   }),
   handler: async (
     agent,
-    input: z.infer<typeof getAssetsByAuthorityAction.schema>,
+    input: z.infer<typeof getAssetsByAuthorityAction.schema>
   ) => {
     const result = await get_assets_by_authority(agent, input);
 

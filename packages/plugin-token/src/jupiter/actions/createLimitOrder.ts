@@ -8,7 +8,7 @@ const createLimitOrderSchema = z.object({
   params: z.object({
     makingAmount: z.string(),
     takingAmount: z.string(),
-    expiredAt: z.string().optional(),
+    expiredAt: z.string().nullable(),
   }),
 });
 

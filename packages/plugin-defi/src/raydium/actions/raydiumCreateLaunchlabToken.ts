@@ -42,43 +42,43 @@ const raydiumCreateLaunchlabTokenAction: Action = {
       .number()
       .int()
       .positive()
-      .optional()
+      .nullable()
       .describe("Initial token supply"),
-    uri: z.string().url().describe("Token metadata URI"),
+    uri: z.string().describe("Token metadata URI"),
     platformId: z
       .string()
-      .optional()
+      .nullable()
       .describe("Platform ID (default is Raydium platform)"),
     migrateType: z
       .enum(["amm", "cpmm"])
-      .optional()
+      .nullable()
       .default("amm")
       .describe("Migration type (default is 'amm')"),
     txVersion: z
       .nativeEnum(TxVersion)
-      .optional()
+      .nullable()
       .default(TxVersion.V0)
       .describe(
-        "Transaction version (default is '0' for V0), other option is '1' for Legacy",
+        "Transaction version (default is '0' for V0), other option is '1' for Legacy"
       ),
     slippageBps: z
       .number()
       .int()
       .min(0)
       .max(10000)
-      .optional()
+      .nullable()
       .default(100)
       .describe("Slippage in basis points (default is 100 bps)"),
     buyAmount: z
       .number()
       .int()
       .min(1)
-      .optional()
+      .nullable()
       .default(1)
       .describe("Buy amount in lamports (default is 0)"),
     createOnly: z
       .boolean()
-      .optional()
+      .nullable()
       .default(false)
       .describe("Create mint only, without buying tokens"),
   }),

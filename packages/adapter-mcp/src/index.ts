@@ -56,7 +56,7 @@ export function createMcpServer(
   options: {
     name: string;
     version: string;
-  },
+  }
 ) {
   // Create MCP server instance
   const server = new McpServer({
@@ -108,7 +108,7 @@ export function createMcpServer(
         {
           showIndex: z
             .string()
-            .optional()
+            .nullable()
             .describe("Example index to show (number)"),
         },
         (args) => {
@@ -126,7 +126,7 @@ Example ${idx + 1}:
 Input: ${JSON.stringify(ex.input, null, 2)}
 Output: ${JSON.stringify(ex.output, null, 2)}
 Explanation: ${ex.explanation}
-            `,
+            `
             )
             .join("\n");
 
@@ -141,7 +141,7 @@ Explanation: ${ex.explanation}
               },
             ],
           };
-        },
+        }
       );
     }
   }
@@ -174,7 +174,7 @@ export async function startMcpServer(
   options: {
     name: string;
     version: string;
-  },
+  }
 ) {
   try {
     const server = createMcpServer(actions, solanaAgentKit, options);

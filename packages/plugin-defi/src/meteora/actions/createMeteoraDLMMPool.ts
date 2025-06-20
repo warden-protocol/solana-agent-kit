@@ -49,23 +49,23 @@ const createMeteoraDLMMPoolAction: Action = {
     priceRoundingUp: z
       .boolean()
       .describe("Whether to rounding up the initial pool price")
-      .optional(),
+      .nullable(),
     feeBps: z.number().positive().describe("Pool trading fee in BPS"),
     activationType: z
       .enum(["Timestamp", "Slot"])
       .describe("Pool activation type")
-      .optional(),
+      .nullable(),
     hasAlphaVault: z
       .boolean()
       .describe("Whether the pool has Meteora alpha vault or not")
-      .optional()
+      .nullable()
       .default(false),
     activationPoint: z
       .number()
       .describe(
-        "Activation point depending on activation type, or null if pool doesn't have an activation point",
+        "Activation point depending on activation type, or null if pool doesn't have an activation point"
       )
-      .optional(),
+      .nullable(),
   }),
   handler: async (agent, input) => {
     try {
@@ -91,7 +91,7 @@ const createMeteoraDLMMPoolAction: Action = {
         feeBps,
         activationType,
         hasAlphaVault,
-        activationPoint,
+        activationPoint
       );
 
       return {

@@ -4,7 +4,7 @@ import { RANGER_DATA_API_BASE } from "../index";
 
 export const getFundingRatesTrendSchema = z.object({
   symbol: z.string(),
-  platform: z.string().optional(),
+  platform: z.string().nullable(),
 });
 export type GetFundingRatesTrendInput = z.infer<
   typeof getFundingRatesTrendSchema

@@ -64,16 +64,16 @@ const deployTokenAction: Action = {
     name: z.string().min(1, "Name is required"),
     uri: z.string().url("URI must be a valid URL"),
     symbol: z.string().min(1, "Symbol is required"),
-    decimals: z.number().optional(),
+    decimals: z.number().nullable(),
     authority: z
       .object({
-        mintAuthority: z.string().nullable().optional(),
-        freezeAuthority: z.string().nullable().optional(),
-        updateAuthority: z.string().nullable().optional(),
-        isMutable: z.boolean().optional(),
+        mintAuthority: z.string().nullable().nullable(),
+        freezeAuthority: z.string().nullable().nullable(),
+        updateAuthority: z.string().nullable().nullable(),
+        isMutable: z.boolean().nullable(),
       })
-      .optional(),
-    initialSupply: z.number().optional(),
+      .nullable(),
+    initialSupply: z.number().nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     try {
@@ -84,7 +84,7 @@ const deployTokenAction: Action = {
         input.symbol,
         input.authority,
         input.decimals,
-        input.initialSupply,
+        input.initialSupply
       );
 
       if (

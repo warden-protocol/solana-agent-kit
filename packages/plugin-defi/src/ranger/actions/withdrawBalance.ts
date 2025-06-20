@@ -8,7 +8,7 @@ export const withdrawBalanceSchema = z.object({
   fee_payer: z.string(),
   symbol: z.string(),
   amount: z.number().positive(),
-  sub_account_id: z.number().int().optional(),
+  sub_account_id: z.number().int().nullable(),
   adjustment_type: z.literal("WithdrawBalanceDrift"),
 });
 

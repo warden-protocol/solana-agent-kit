@@ -32,7 +32,7 @@ const createMultisigProposalAction: Action = {
     ],
   ],
   schema: z.object({
-    transactionIndex: z.number().optional(),
+    transactionIndex: z.number().nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     const transactionIndex =

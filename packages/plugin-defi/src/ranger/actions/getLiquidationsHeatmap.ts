@@ -3,7 +3,7 @@ import type { Action, SolanaAgentKit } from "solana-agent-kit";
 import { RANGER_DATA_API_BASE } from "../index";
 
 export const getLiquidationsHeatmapSchema = z.object({
-  granularity: z.string().optional(),
+  granularity: z.string().nullable(),
 });
 export type GetLiquidationsHeatmapInput = z.infer<
   typeof getLiquidationsHeatmapSchema

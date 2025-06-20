@@ -52,8 +52,8 @@ const getTokenDataAction: Action = {
     ],
   ],
   schema: z.object({
-    address: z.string().optional().describe("The token's mint address"),
-    ticker: z.string().optional().describe("The token's ticker symbol"),
+    address: z.string().nullable().describe("The token's mint address"),
+    ticker: z.string().nullable().describe("The token's ticker symbol"),
   }),
   handler: async (_agent: SolanaAgentKit, input: Record<string, any>) => {
     try {

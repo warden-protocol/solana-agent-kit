@@ -1,4 +1,5 @@
 import type { Plugin } from "solana-agent-kit";
+import type { SolanaAgentKit } from "solana-agent-kit";
 
 // Import Metaplex actions
 import deployCollectionAction from "./metaplex/actions/deployCollection";
@@ -116,7 +117,7 @@ const NFTPlugin = {
   ],
 
   // Initialize function
-  initialize: function (): void {
+  initialize: function (agent: SolanaAgentKit): void {
     // Initialize all methods with the agent instance
     Object.entries(this.methods).forEach(([methodName, method]) => {
       if (typeof method === "function") {

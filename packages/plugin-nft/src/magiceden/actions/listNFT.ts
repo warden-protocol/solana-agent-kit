@@ -35,8 +35,8 @@ const listMagicEdenNFTAction: Action = {
     tokenMint: z.string().min(1, "Token mint address is required"),
     tokenAccount: z.string().min(1, "Token account address is required"),
     price: z.number().positive("Price must be a positive number"),
-    auctionHouseAddress: z.string().optional(),
-    sellerReferral: z.string().optional(),
+    auctionHouseAddress: z.string().nullable(),
+    sellerReferral: z.string().nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     const {
@@ -56,7 +56,7 @@ const listMagicEdenNFTAction: Action = {
         {
           auctionHouseAddress,
           sellerReferral,
-        },
+        }
       );
 
       return {

@@ -15,9 +15,9 @@ export const closePositionSchema = z.object({
     "CloseAdrena",
     "CloseAll",
   ]),
-  slippage_bps: z.number().int().optional(),
-  priority_fee_micro_lamports: z.number().int().optional(),
-  expected_price: z.number().optional(),
+  slippage_bps: z.number().int().nullable(),
+  priority_fee_micro_lamports: z.number().int().nullable(),
+  expected_price: z.number().nullable(),
 });
 
 export type ClosePositionInput = z.infer<typeof closePositionSchema>;

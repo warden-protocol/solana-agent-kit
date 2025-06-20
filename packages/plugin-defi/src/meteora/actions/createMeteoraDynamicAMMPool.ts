@@ -54,8 +54,8 @@ const createMeteoraDynamicAMMPoolAction: Action = {
     activationType: z
       .enum(["Timestamp", "Slot"])
       .describe("Activation type")
-      .optional(),
-    activationPoint: z.number().describe("Activation point").optional(),
+      .nullable(),
+    activationPoint: z.number().describe("Activation point").nullable(),
     hasAlphaVault: z
       .boolean()
       .describe("Whether the pool has Meteora alpha vault or not")
@@ -88,14 +88,14 @@ const createMeteoraDynamicAMMPoolAction: Action = {
       const tokenBDecimals = MintLayout.decode(tokenBMintInfo.data).decimals;
 
       const tokenAAmount = new BN(
-        new Decimal(input.tokenAAmount).mul(10 ** tokenADecimals).toString(),
+        new Decimal(input.tokenAAmount).mul(10 ** tokenADecimals).toString()
       );
       const tokenBAmount = new BN(
-        new Decimal(input.tokenBAmount).mul(10 ** tokenBDecimals).toString(),
+        new Decimal(input.tokenBAmount).mul(10 ** tokenBDecimals).toString()
       );
 
       const tradeFeeNumerator = new BN(
-        input.tradeFeeNumerator.toString(),
+        input.tradeFeeNumerator.toString()
       ).toNumber();
       const activationType = input.activationType ?? 1;
       const activationPoint = input.activationPoint
@@ -115,7 +115,7 @@ const createMeteoraDynamicAMMPoolAction: Action = {
           hasAlphaVault,
           tradeFeeNumerator,
           padding: Array(90).fill(0),
-        },
+        }
       );
 
       return {

@@ -5,18 +5,18 @@ export const getPositionsSchema = z.object({
   public_key: z.string().describe("User's Solana wallet address."),
   platforms: z
     .array(z.enum(["DRIFT", "FLASH", "JUPITER", "ADRENA"]))
-    .optional()
+    .nullable()
     .describe("Optional list of platforms to filter by."),
   symbols: z
     .array(z.string())
-    .optional()
+    .nullable()
     .describe(
       "Optional list of symbols to filter by (e.g., ['SOL-PERP', 'BTC-PERP'])."
     ),
   from: z
     .string()
     .datetime()
-    .optional()
+    .nullable()
     .describe(
       "Optional earliest position date (ISO 8601 format) to fetch (defaults to 2 days ago in API)."
     ),

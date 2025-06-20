@@ -3,7 +3,7 @@ import type { Action, SolanaAgentKit } from "solana-agent-kit";
 import { RANGER_DATA_API_BASE } from "../index";
 
 export const getFundingRateArbsSchema = z.object({
-  min_diff: z.number().optional(),
+  min_diff: z.number().nullable(),
 });
 export type GetFundingRateArbsInput = z.infer<typeof getFundingRateArbsSchema>;
 

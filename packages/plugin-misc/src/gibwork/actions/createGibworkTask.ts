@@ -52,7 +52,7 @@ const createGibworkTaskAction: Action = {
     tokenAmount: z.number().positive().describe("Payment amount for the task"),
     payer: z
       .string()
-      .optional()
+      .nullable()
       .describe("Optional payer address (defaults to wallet address)"),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
@@ -65,7 +65,7 @@ const createGibworkTaskAction: Action = {
         input.tags,
         new PublicKey(input.tokenMintAddress),
         input.tokenAmount,
-        input.payer ? new PublicKey(input.payer) : undefined,
+        input.payer ? new PublicKey(input.payer) : undefined
       );
 
       return {

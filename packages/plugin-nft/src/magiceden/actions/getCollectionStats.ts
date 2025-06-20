@@ -34,7 +34,7 @@ const getMagicEdenCollectionStatsAction: Action = {
   ],
   schema: z.object({
     collectionSymbol: z.string().min(1, "Collection ID is required"),
-    timeWindow: z.enum(["24h", "7d", "30d"]).optional().default("24h"),
+    timeWindow: z.enum(["24h", "7d", "30d"]).nullable().default("24h"),
   }),
   handler: async (agent, input) => {
     const { collectionSymbol, timeWindow } = input;
@@ -45,7 +45,7 @@ const getMagicEdenCollectionStatsAction: Action = {
         collectionSymbol,
         {
           timeWindow: timeWindow as "24h" | "7d" | "30d" | "all",
-        },
+        }
       );
 
       return {

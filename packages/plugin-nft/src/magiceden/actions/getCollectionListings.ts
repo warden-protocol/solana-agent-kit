@@ -38,7 +38,7 @@ const getMagicEdenCollectionListingsAction: Action = {
   ],
   schema: z.object({
     collectionSymbol: z.string().min(1, "Collection symbol is required"),
-    limit: z.number().int().min(1).max(100).optional(),
+    limit: z.number().int().min(1).max(100).nullable(),
   }),
   handler: async (agent, input) => {
     const { collectionSymbol, limit = 10 } = input;
@@ -47,7 +47,7 @@ const getMagicEdenCollectionListingsAction: Action = {
       const res = await get_magiceden_collection_listings(
         agent,
         collectionSymbol,
-        { limit },
+        { limit }
       );
 
       return {

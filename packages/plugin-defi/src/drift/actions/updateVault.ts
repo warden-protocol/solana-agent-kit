@@ -31,48 +31,48 @@ const updateDriftVaultAction: Action = {
   ],
   schema: z.object({
     vaultAddress: z.string(),
-    name: z.string().min(5, "Name must be at least 5 characters").optional(),
+    name: z.string().min(5, "Name must be at least 5 characters").nullable(),
     // regex matches SOL-SPOT
     marketName: z
       .string()
       .regex(/^([A-Za-z0-9]{2,7})-SPOT$/)
-      .optional(),
+      .nullable(),
     redeemPeriod: z
       .number()
       .int()
       .min(1, "Redeem period must be at least 1 day")
-      .optional(),
+      .nullable(),
     maxTokens: z
       .number()
       .int()
       .min(100, "Max tokens must be at least be 100 units")
-      .optional()
+      .nullable()
       .describe(
-        "The maximum number of tokens the vault is willing to accept and manage",
+        "The maximum number of tokens the vault is willing to accept and manage"
       ),
     minDepositAmount: z
       .number()
       .positive()
-      .optional()
+      .nullable()
       .describe(
-        "The minimum amount that is allowed to be deposited into the vault in normal token amounts e.g 10 USDC",
+        "The minimum amount that is allowed to be deposited into the vault in normal token amounts e.g 10 USDC"
       ),
     managementFee: z
       .number()
       .positive()
       .max(20)
-      .optional()
+      .nullable()
       .describe("The percentage fee the vault takes for asset management"),
     profitShare: z
       .number()
       .positive()
       .max(90)
-      .optional()
+      .nullable()
       .describe("Profit share in percentage e.g 2 === 2%"),
-    handleRate: z.number().optional(),
+    handleRate: z.number().nullable(),
     permissioned: z
       .boolean()
-      .optional()
+      .nullable()
       .describe("Should the vault have a whitelist of not"),
   }),
   handler: async (agent, input) => {

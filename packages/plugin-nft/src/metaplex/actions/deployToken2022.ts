@@ -51,8 +51,8 @@ const deployToken2022Action: Action = {
     name: z.string().min(1, "Name is required"),
     uri: z.string().url("URI must be a valid URL"),
     symbol: z.string().min(1, "Symbol is required"),
-    decimals: z.number().optional(),
-    initialSupply: z.number().optional(),
+    decimals: z.number().nullable(),
+    initialSupply: z.number().nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     try {
@@ -62,7 +62,7 @@ const deployToken2022Action: Action = {
         input.uri,
         input.symbol,
         input.decimals,
-        input.initialSupply,
+        input.initialSupply
       );
 
       return {

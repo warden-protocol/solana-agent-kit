@@ -67,7 +67,7 @@ const tradeDelegatedDriftVaultAction: Action = {
       .number()
       .positive()
       .describe(
-        "Amount to trade in normal token amounts e.g 50 SOL, 100 USDC, etc",
+        "Amount to trade in normal token amounts e.g 50 SOL, 100 USDC, etc"
       ),
     symbol: z.string().describe("Symbol of the token to trade"),
     action: z.enum(["long", "short"]).describe("Trade action - long or short"),
@@ -75,7 +75,7 @@ const tradeDelegatedDriftVaultAction: Action = {
     price: z
       .number()
       .positive()
-      .optional()
+      .nullable()
       .describe("USD price for limit order"),
   }),
   handler: async (agent, input) => {
@@ -97,7 +97,7 @@ const tradeDelegatedDriftVaultAction: Action = {
         params.symbol,
         params.action,
         params.type,
-        params.price,
+        params.price
       );
 
       return {

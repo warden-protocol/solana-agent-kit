@@ -54,7 +54,7 @@ const deployCollectionAction: Action = {
   schema: z.object({
     name: z.string().min(1, "Name is required"),
     uri: z.string().url("URI must be a valid URL"),
-    royaltyBasisPoints: z.number().min(0).max(10000).optional(),
+    royaltyBasisPoints: z.number().min(0).max(10000).nullable(),
   }),
   handler: async (agent, input: Record<string, any>) => {
     const options: CollectionOptions = {

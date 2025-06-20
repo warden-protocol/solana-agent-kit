@@ -149,30 +149,30 @@ export const chainIdSchema = z.string().refine(
   },
   {
     message: "Chain ID must be either 1-99999, 7565164 (Solana), or 100000000+",
-  },
+  }
 );
 
 // Token info parameters schema
 export const getDebridgeTokensInfoSchema = z.object({
   /** Chain ID to query tokens for */
   chainId: chainIdSchema.describe(
-    "Chain ID to get token information for. Examples: '1' (Ethereum), '56' (BNB Chain), '7565164' (Solana)",
+    "Chain ID to get token information for. Examples: '1' (Ethereum), '56' (BNB Chain), '7565164' (Solana)"
   ),
 
   /** Optional token address to filter results */
   tokenAddress: z
     .string()
-    .optional()
+    .nullable()
     .describe(
-      "Token address to query information for. For EVM chains: use 0x-prefixed address. For Solana: use base58 token address",
+      "Token address to query information for. For EVM chains: use 0x-prefixed address. For Solana: use base58 token address"
     ),
 
   /** Optional search term to filter tokens by name or symbol */
   search: z
     .string()
-    .optional()
+    .nullable()
     .describe(
-      "Search term to filter tokens by name or symbol (e.g., 'USDC', 'Ethereum')",
+      "Search term to filter tokens by name or symbol (e.g., 'USDC', 'Ethereum')"
     ),
 });
 

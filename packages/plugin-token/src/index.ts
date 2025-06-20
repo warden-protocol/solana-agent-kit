@@ -60,7 +60,7 @@ import {
 } from "./jupiter/tools";
 import { sendCompressedAirdrop } from "./lightprotocol/tools";
 import { swap } from "./mayan/tools";
-import launchPumpFunToken  from "./pumpfun/tools/launchPumpfunToken";
+import launchPumpFunToken from "./pumpfun/tools/launchPumpfunToken";
 import claimCreatorFee from "./pumpfun/tools/claimCreatorFee";
 import { fetchPythPrice, fetchPythPriceFeedID } from "./pyth/tools";
 import { fetchTokenDetailedReport, fetchTokenReportSummary } from "./rugcheck";
@@ -149,7 +149,7 @@ const TokenPlugin = {
   ],
 
   // Initialize function
-  initialize: function (): void {
+  initialize: function (agent: SolanaAgentKit): void {
     // Initialize all methods with the agent instance
     for (const [methodName, method] of Object.entries(this.methods)) {
       if (typeof method === "function") {

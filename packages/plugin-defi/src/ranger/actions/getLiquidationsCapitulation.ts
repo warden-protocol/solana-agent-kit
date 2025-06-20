@@ -3,8 +3,8 @@ import type { Action, SolanaAgentKit } from "solana-agent-kit";
 import { RANGER_DATA_API_BASE } from "../index";
 
 export const getLiquidationsCapitulationSchema = z.object({
-  granularity: z.string().optional(),
-  threshold: z.number().optional(),
+  granularity: z.string().nullable(),
+  threshold: z.number().nullable(),
 });
 export type GetLiquidationsCapitulationInput = z.infer<
   typeof getLiquidationsCapitulationSchema

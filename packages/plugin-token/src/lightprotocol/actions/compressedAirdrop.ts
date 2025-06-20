@@ -57,11 +57,11 @@ const compressedAirdropAction: Action = {
       .describe("Array of recipient addresses, e.g., ['1nc1n...']"),
     priorityFeeInLamports: z
       .number()
-      .optional()
+      .nullable()
       .describe("Priority fee in lamports (default is 30_000)"),
     shouldLog: z
       .boolean()
-      .optional()
+      .nullable()
       .describe("Whether to log progress to stdout (default is false)"),
   }),
   handler: async (_agent: SolanaAgentKit, input: Record<string, any>) => {
@@ -82,7 +82,7 @@ const compressedAirdropAction: Action = {
         decimals,
         recipients,
         priorityFeeInLamports || 30_000,
-        shouldLog || false,
+        shouldLog || false
       );
 
       return {

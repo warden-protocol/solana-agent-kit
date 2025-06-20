@@ -61,12 +61,12 @@ const tokenBalancesAction: Action = {
     ],
   ],
   schema: z.object({
-    walletAddress: z.string().optional(),
+    walletAddress: z.string().nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input: { walletAddress?: string }) => {
     const balance = await get_token_balance(
       agent,
-      input.walletAddress ? new PublicKey(input.walletAddress) : undefined,
+      input.walletAddress ? new PublicKey(input.walletAddress) : undefined
     );
 
     return {

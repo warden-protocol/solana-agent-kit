@@ -44,9 +44,9 @@ const sendTransactionWithPriorityFeeAction: Action = {
     to: z.string().describe("Recipient's PublicKey."),
     splmintAddress: z
       .string()
-      .optional()
+      .nullable()
       .describe(
-        "Optional SPL token address, if transferring tokens other than SOL.",
+        "Optional SPL token address, if transferring tokens other than SOL."
       ),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
@@ -61,7 +61,7 @@ const sendTransactionWithPriorityFeeAction: Action = {
       priorityLevel,
       amount,
       toPublicKey,
-      splmintPublicKey,
+      splmintPublicKey
     );
 
     return {

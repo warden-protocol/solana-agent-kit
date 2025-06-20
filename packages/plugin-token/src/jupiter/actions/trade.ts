@@ -56,8 +56,8 @@ const tradeAction: Action = {
   schema: z.object({
     outputMint: z.string().min(32, "Invalid output mint address"),
     inputAmount: z.number().positive("Input amount must be positive"),
-    inputMint: z.string().min(32, "Invalid input mint address").optional(),
-    slippageBps: z.number().min(0).max(10000).optional(),
+    inputMint: z.string().min(32, "Invalid input mint address").nullable(),
+    slippageBps: z.number().min(0).max(10000).nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     const tx = await trade(
@@ -67,7 +67,7 @@ const tradeAction: Action = {
       input.inputMint
         ? new PublicKey(input.inputMint)
         : new PublicKey("So11111111111111111111111111111111111111112"),
-      input.slippageBps,
+      input.slippageBps
     );
 
     return {

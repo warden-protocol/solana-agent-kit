@@ -18,10 +18,10 @@ export const decreasePositionSchema = z.object({
     "DecreaseDrift",
     "DecreaseAdrena",
   ]),
-  target_venues: z.array(z.enum(["Jupiter", "Flash", "Drift"])).optional(),
-  slippage_bps: z.number().int().optional(),
-  priority_fee_micro_lamports: z.number().int().optional(),
-  expected_price: z.number().optional(),
+  target_venues: z.array(z.enum(["Jupiter", "Flash", "Drift"])).nullable(),
+  slippage_bps: z.number().int().nullable(),
+  priority_fee_micro_lamports: z.number().int().nullable(),
+  expected_price: z.number().nullable(),
 });
 
 export type DecreasePositionInput = z.infer<typeof decreasePositionSchema>;

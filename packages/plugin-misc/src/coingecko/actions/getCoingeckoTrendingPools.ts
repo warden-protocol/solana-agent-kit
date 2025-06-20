@@ -123,7 +123,7 @@ const getCoingeckoTrendingPoolsAction: Action = {
     ],
   ],
   schema: z.object({
-    duration: z.enum(["5m", "1h", "24h", "6h"]).optional(),
+    duration: z.enum(["5m", "1h", "24h", "6h"]).nullable(),
   }),
   handler: async (agent, input) => {
     try {

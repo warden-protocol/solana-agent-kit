@@ -67,14 +67,14 @@ const create3LandCollectibleAction: Action = {
     symbol: z.string().min(1, "Symbol is required"),
     description: z.string().min(1, "Description is required"),
     image: z.string().url("Image must be a valid URL"),
-    isMainnet: z.boolean().optional().default(false),
+    isMainnet: z.boolean().nullable().default(false),
     traits: z.array(z.string()),
     // Collection-specific fields
-    collectionAccount: z.string().optional(),
+    collectionAccount: z.string().nullable(),
     // Single NFT-specific fields
-    price: z.number().positive().optional(),
-    sellerFeeBasisPoints: z.number().min(0).max(10000).optional(),
-    withPool: z.boolean().optional().default(false),
+    price: z.number().positive().nullable(),
+    sellerFeeBasisPoints: z.number().min(0).max(10000).nullable(),
+    withPool: z.boolean().nullable().default(false),
   }),
   handler: async (_agent, input: Record<string, any>) => {
     try {
@@ -96,7 +96,7 @@ const create3LandCollectibleAction: Action = {
       }
       if (!input.collectionAccount) {
         throw new Error(
-          "Collection account is required for single NFT creation",
+          "Collection account is required for single NFT creation"
         );
       }
 
@@ -116,7 +116,7 @@ const create3LandCollectibleAction: Action = {
         input.collectionAccount,
         createItemOptions,
         input.isMainnet,
-        input.withPool,
+        input.withPool
       );
 
       return {

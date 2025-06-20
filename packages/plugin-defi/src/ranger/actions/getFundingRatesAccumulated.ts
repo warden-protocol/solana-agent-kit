@@ -3,9 +3,9 @@ import type { Action, SolanaAgentKit } from "solana-agent-kit";
 import { RANGER_DATA_API_BASE } from "../index";
 
 export const getFundingRatesAccumulatedSchema = z.object({
-  symbol: z.string().optional(),
-  granularity: z.string().optional(),
-  platform: z.string().optional(),
+  symbol: z.string().nullable(),
+  granularity: z.string().nullable(),
+  platform: z.string().nullable(),
 });
 export type GetFundingRatesAccumulatedInput = z.infer<
   typeof getFundingRatesAccumulatedSchema

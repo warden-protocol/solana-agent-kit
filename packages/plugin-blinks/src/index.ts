@@ -1,4 +1,4 @@
-import type { Plugin } from "solana-agent-kit";
+import type { Plugin, SolanaAgentKit } from "solana-agent-kit";
 import rockPaperScissorAction from "./sendarcade/actions/rockPaperScissors";
 import { rock_paper_scissor } from "./sendarcade/tools/rock_paper_scissor";
 
@@ -19,7 +19,7 @@ const BlinksPlugin = {
   ],
 
   // Initialize function
-  initialize: function (): void {
+  initialize: function (agent: SolanaAgentKit): void {
     // Initialize all methods with the agent instance
     Object.entries(this.methods).forEach(([methodName, method]) => {
       if (typeof method === "function") {

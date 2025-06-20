@@ -36,12 +36,12 @@ const driftSpotTokenSwapAction: Action = {
       .number()
       .positive()
       .describe("Amount to swap from e.g 50 === 50 SOL")
-      .optional(),
+      .nullable(),
     toAmount: z
       .number()
       .positive()
       .describe("Amount to swap to e.g 5000 === 5000 USDC")
-      .optional(),
+      .nullable(),
     slippage: z
       .number()
       .positive()

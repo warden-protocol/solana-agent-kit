@@ -64,7 +64,7 @@ const createDebridgeBridgeOrderAction: Action = {
     srcChainTokenIn: z
       .string()
       .describe(
-        "Source token address (use '0x0000000000000000000000000000000000000000' for native tokens on EVM)",
+        "Source token address (use '0x0000000000000000000000000000000000000000' for native tokens on EVM)"
       ),
     srcChainTokenInAmount: z
       .string()
@@ -78,49 +78,49 @@ const createDebridgeBridgeOrderAction: Action = {
       .describe("Required: Recipient address on destination chain"),
     dstChainTokenOutAmount: z
       .string()
-      .optional()
+      .nullable()
       .describe(
-        "Optional: Expected amount of tokens to receive (default: 'auto')",
+        "Optional: Expected amount of tokens to receive (default: 'auto')"
       ),
     slippage: z
       .number()
-      .optional()
+      .nullable()
       .describe(
-        "Optional: Slippage tolerance in percentage (e.g., 0.5 for 0.5%)",
+        "Optional: Slippage tolerance in percentage (e.g., 0.5 for 0.5%)"
       ),
     additionalTakerRewardBps: z
       .number()
-      .optional()
+      .nullable()
       .describe("Optional: Additional taker reward in basis points"),
     srcIntermediaryTokenAddress: z
       .string()
-      .optional()
+      .nullable()
       .describe("Optional: Source chain intermediary token address"),
     dstIntermediaryTokenAddress: z
       .string()
-      .optional()
+      .nullable()
       .describe("Optional: Destination chain intermediary token address"),
     dstIntermediaryTokenSpenderAddress: z
       .string()
-      .optional()
+      .nullable()
       .describe(
-        "Optional: Destination chain intermediary token spender address",
+        "Optional: Destination chain intermediary token spender address"
       ),
     intermediaryTokenUSDPrice: z
       .number()
-      .optional()
+      .nullable()
       .describe("Optional: USD price of intermediary token"),
     srcAllowedCancelBeneficiary: z
       .string()
-      .optional()
+      .nullable()
       .describe("Optional: Fixed recipient for cancelled orders"),
     referralCode: z
       .number()
-      .optional()
+      .nullable()
       .describe("Optional: Referral code for earning deBridge points"),
     affiliateFeePercent: z
       .number()
-      .optional()
+      .nullable()
       .describe("Optional: Affiliate fee percentage"),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {

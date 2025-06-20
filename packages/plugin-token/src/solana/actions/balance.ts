@@ -42,12 +42,12 @@ const balanceAction: Action = {
     ],
   ],
   schema: z.object({
-    tokenAddress: z.string().optional(),
+    tokenAddress: z.string().nullable(),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     const balance = await get_balance(
       agent,
-      input.tokenAddress && new PublicKey(input.tokenAddress),
+      input.tokenAddress && new PublicKey(input.tokenAddress)
     );
 
     return {

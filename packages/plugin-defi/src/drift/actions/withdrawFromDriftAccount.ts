@@ -36,7 +36,7 @@ const withdrawFromDriftAccountAction: Action = {
       .number()
       .positive()
       .describe(
-        "The amount in tokens you'd like to withdraw from your drift account in normal token amounts, e.g 50 SOL, 100 USDC, etc",
+        "The amount in tokens you'd like to withdraw from your drift account in normal token amounts, e.g 50 SOL, 100 USDC, etc"
       ),
     symbol: z
       .string()
@@ -44,10 +44,10 @@ const withdrawFromDriftAccountAction: Action = {
       .describe("The symbol of the token you'd like to withdraw"),
     isBorrow: z
       .boolean()
-      .optional()
+      .nullable()
       .default(false)
       .describe(
-        "Whether or not to borrow funds based on collateral provided instead of withdrawing",
+        "Whether or not to borrow funds based on collateral provided instead of withdrawing"
       ),
   }),
   handler: async (agent, input) => {
@@ -56,7 +56,7 @@ const withdrawFromDriftAccountAction: Action = {
         agent,
         input.amount,
         input.symbol,
-        input.isBorrow,
+        input.isBorrow
       );
 
       return {

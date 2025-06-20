@@ -3,8 +3,8 @@ import type { Action, SolanaAgentKit } from "solana-agent-kit";
 import { RANGER_DATA_API_BASE } from "../index";
 
 export const getFundingRatesExtremeSchema = z.object({
-  granularity: z.string().optional(),
-  limit: z.number().int().optional(),
+  granularity: z.string().nullable(),
+  limit: z.number().int().nullable(),
 });
 export type GetFundingRatesExtremeInput = z.infer<
   typeof getFundingRatesExtremeSchema
