@@ -5,11 +5,11 @@ import type { JupiterTokenData } from "../types";
  * @param ticker of the token
  */
 export async function getTokenByTicker(
-  ticker: string,
+  ticker: string
 ): Promise<JupiterTokenData> {
   try {
     const response = await fetch(
-      "https://api.jup.ag/tokens/v1/tagged/verified",
+      "https://lite-api.jup.ag/tokens/v1/tagged/verified"
     );
 
     if (!response.ok) {
@@ -23,7 +23,7 @@ export async function getTokenByTicker(
       .toSorted((a, b) => (b.daily_volume ?? 0) - (a.daily_volume ?? 0))
       .find(
         (token: JupiterTokenData) =>
-          token.symbol.toLowerCase() === ticker.toLowerCase(),
+          token.symbol.toLowerCase() === ticker.toLowerCase()
       );
 
     if (!tokenData) {

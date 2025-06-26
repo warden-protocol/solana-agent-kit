@@ -1,5 +1,5 @@
 {
-  "name": "@solana-agent-kit/plugin-defi",
+  "name": "@jjheywood/sak-plugin-defi",
   "version": "2.0.6",
   "type": "module",
   "publishConfig": {
@@ -28,11 +28,6 @@
     "build": "tsup src/index.ts --dts --clean --format cjs,esm --out-dir dist",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sendaifun/solana-agent-kit.git"
-  },
-  "homepage": "https://github.com/sendaifun/solana-agent-kit/tree/v2/packages/plugin-defi",
   "dependencies": {
     "@cks-systems/manifest-sdk": "^0.2.3",
     "@coral-xyz/anchor": "^0.29.0",

@@ -8,7 +8,7 @@ import type { PublicKey } from "@solana/web3.js";
 export async function fetchPrice(tokenId: PublicKey): Promise<string> {
   try {
     const response = await fetch(
-      `https://api.jup.ag/price/v2?ids=${tokenId.toBase58()}`,
+      `https://lite-api.jup.ag/price/v2?ids=${tokenId.toBase58()}`
     );
 
     if (!response.ok) {
