@@ -12,11 +12,14 @@ const jupiterApi = axios.create({
   baseURL: "https://api.jup.ag/limit/v2",
   headers: {
     "Content-Type": "application/json",
+    ...(process.env.JUPITER_API_KEY && {
+      "x-api-key": process.env.JUPITER_API_KEY,
+    }),
   },
 });
 
 async function handleApiRequest<T>(
-  apiCall: () => Promise<Response<T>>,
+  apiCall: () => Promise<Response<T>>
 ): Promise<T> {
   try {
     const { data } = await apiCall();
@@ -26,40 +29,40 @@ async function handleApiRequest<T>(
       `Jupiter API error: ${
         // @ts-expect-error - Redaxios error type mismatch
         error.message
-      }`,
+      }`
     );
   }
 }
 
 export async function createOrderApi(
-  data: CreateJupiterOrderRequest,
+  data: CreateJupiterOrderRequest
 ): Promise<CreateJupiterOrderResponse> {
   return handleApiRequest(async () =>
-    jupiterApi.post<CreateJupiterOrderResponse>("/createOrder", data),
+    jupiterApi.post<CreateJupiterOrderResponse>("/createOrder", data)
   );
 }
 
 export async function getOpenOrdersApi(
-  walletAddress: string,
+  walletAddress: string
 ): Promise<OpenJupiterOrderResponse[]> {
   return handleApiRequest(async () =>
     jupiterApi.get<OpenJupiterOrderResponse[]>("/openOrders", {
       params: { wallet: walletAddress },
-    }),
+    })
   );
 }
 
 export async function cancelOrdersApi(
-  data: CancelJupiterOrderRequest,
+  data: CancelJupiterOrderRequest
 ): Promise<CancelJupiterOrderResponse> {
   return handleApiRequest(async () =>
-    jupiterApi.post<CancelJupiterOrderResponse>("/cancelOrders", data),
+    jupiterApi.post<CancelJupiterOrderResponse>("/cancelOrders", data)
   );
 }
 
 export async function getOrderHistoryApi(
   walletAddress: string,
-  page = 1,
+  page = 1
 ): Promise<JupiterOrderHistoryResponse> {
   return handleApiRequest(async () =>
     jupiterApi.get<JupiterOrderHistoryResponse>("/orderHistory", {
@@ -67,6 +70,6 @@ export async function getOrderHistoryApi(
         wallet: walletAddress,
         page,
       },
-    }),
+    })
   );
 }

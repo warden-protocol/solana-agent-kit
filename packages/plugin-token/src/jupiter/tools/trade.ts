@@ -26,7 +26,7 @@ export async function trade(
   inputAmount: number,
   inputMint: PublicKey = TOKENS.USDC,
   // @deprecated use dynamicSlippage instead
-  _slippageBps: number = DEFAULT_OPTIONS.SLIPPAGE_BPS,
+  _slippageBps: number = DEFAULT_OPTIONS.SLIPPAGE_BPS
 ): Promise<Awaited<ReturnType<typeof signOrSendTX>>> {
   try {
     // Check if input token is native SOL
@@ -52,6 +52,14 @@ export async function trade(
           `&maxAccounts=64` +
           `&swapMode=ExactIn` +
           `${agent.config?.JUPITER_FEE_BPS ? `&platformFeeBps=${agent.config?.JUPITER_FEE_BPS}` : ""}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...(process.env.JUPITER_API_KEY && {
+              "x-api-key": process.env.JUPITER_API_KEY,
+            }),
+          },
+        }
       )
     ).json();
 
@@ -64,7 +72,7 @@ export async function trade(
           new PublicKey(agent.config?.JUPITER_REFERRAL_ACCOUNT).toBuffer(),
           TOKENS.SOL.toBuffer(),
         ],
-        new PublicKey(JUP_REFERRAL_ADDRESS),
+        new PublicKey(JUP_REFERRAL_ADDRESS)
       );
     }
 
@@ -73,6 +81,9 @@ export async function trade(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(process.env.JUPITER_API_KEY && {
+            "x-api-key": process.env.JUPITER_API_KEY,
+          }),
         },
         body: JSON.stringify({
           quoteResponse,

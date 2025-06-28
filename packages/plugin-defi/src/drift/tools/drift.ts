@@ -46,7 +46,7 @@ export async function initClients(
     authority: PublicKey;
     activeSubAccountId: number;
     subAccountIds: number[];
-  },
+  }
 ) {
   const wallet: IWallet = {
     publicKey: agent.wallet.publicKey,
@@ -87,7 +87,7 @@ export async function initClients(
   const vaultProgram = new anchor.Program(
     IDL,
     VAULT_PROGRAM_ID,
-    driftClient.provider,
+    driftClient.provider
   );
   const vaultClient = new VaultClient({
     driftClient: driftClient,
@@ -112,7 +112,7 @@ export async function initClients(
 export async function createDriftUserAccount(
   agent: SolanaAgentKit,
   amount: number,
-  symbol: string,
+  symbol: string
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
@@ -120,17 +120,17 @@ export async function createDriftUserAccount(
       driftClient,
       userAccountPublicKey: getUserAccountPublicKeySync(
         new PublicKey(DRIFT_PROGRAM_ID),
-        agent.wallet.publicKey,
+        agent.wallet.publicKey
       ),
     });
     const userAccountExists = await user.exists();
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(`Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-        (v) => v.symbol,
+        (v) => v.symbol
       ).join(", ")}
       `);
     }
@@ -140,7 +140,7 @@ export async function createDriftUserAccount(
       const [txSignature, account] =
         await driftClient.initializeUserAccountAndDepositCollateral(
           depositAmount,
-          getAssociatedTokenAddressSync(token.mint, agent.wallet.publicKey),
+          getAssociatedTokenAddressSync(token.mint, agent.wallet.publicKey)
         );
 
       await cleanUp();
@@ -170,7 +170,7 @@ export async function depositToDriftUserAccount(
   agent: SolanaAgentKit,
   amount: number,
   symbol: string,
-  isRepay = false,
+  isRepay = false
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
@@ -179,19 +179,19 @@ export async function depositToDriftUserAccount(
       driftClient,
       userAccountPublicKey: getUserAccountPublicKeySync(
         new PublicKey(DRIFT_PROGRAM_ID),
-        publicKey,
+        publicKey
       ),
     });
     const userAccountExists = await user.exists();
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -207,7 +207,7 @@ export async function depositToDriftUserAccount(
         token.marketIndex,
         getAssociatedTokenAddressSync(token.mint, publicKey),
         undefined,
-        isRepay,
+        isRepay
       ),
       driftClient.connection.getLatestBlockhash(),
     ]);
@@ -215,13 +215,13 @@ export async function depositToDriftUserAccount(
     const tx = new Transaction().add(...depInstruction).add(
       ComputeBudgetProgram.setComputeUnitPrice({
         microLamports: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS,
-      }),
+      })
     );
     tx.recentBlockhash = latestBlockhash.blockhash;
     const signedTx = await agent.wallet.signTransaction(tx);
     const txSignature = await driftClient.txSender.sendRawTransaction(
       signedTx.serialize(),
-      { ...driftClient.opts },
+      { ...driftClient.opts }
     );
 
     await cleanUp();
@@ -236,7 +236,7 @@ export async function withdrawFromDriftUserAccount(
   agent: SolanaAgentKit,
   amount: number,
   symbol: string,
-  isBorrow = false,
+  isBorrow = false
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
@@ -244,7 +244,7 @@ export async function withdrawFromDriftUserAccount(
       driftClient,
       userAccountPublicKey: getUserAccountPublicKeySync(
         new PublicKey(DRIFT_PROGRAM_ID),
-        agent.wallet.publicKey,
+        agent.wallet.publicKey
       ),
     });
     const userAccountExists = await user.exists();
@@ -254,14 +254,14 @@ export async function withdrawFromDriftUserAccount(
     }
 
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -272,7 +272,7 @@ export async function withdrawFromDriftUserAccount(
         withdrawAmount,
         token.marketIndex,
         getAssociatedTokenAddressSync(token.mint, agent.wallet.publicKey),
-        !isBorrow,
+        !isBorrow
       ),
       driftClient.connection.getLatestBlockhash(),
     ]);
@@ -280,14 +280,14 @@ export async function withdrawFromDriftUserAccount(
     const tx = new Transaction().add(...withdrawInstruction).add(
       ComputeBudgetProgram.setComputeUnitPrice({
         microLamports: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS,
-      }),
+      })
     );
     tx.recentBlockhash = latestBlockhash.blockhash;
     const signedTx = await agent.wallet.signTransaction(tx);
 
     const txSignature = await driftClient.txSender.sendRawTransaction(
       signedTx.serialize(),
-      { ...driftClient.opts },
+      { ...driftClient.opts }
     );
 
     await cleanUp();
@@ -316,7 +316,7 @@ export async function driftPerpTrade(
     action: "long" | "short";
     type: "market" | "limit";
     price?: number | undefined;
-  },
+  }
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
@@ -324,7 +324,7 @@ export async function driftPerpTrade(
       driftClient,
       userAccountPublicKey: getUserAccountPublicKeySync(
         new PublicKey(DRIFT_PROGRAM_ID),
-        agent.wallet.publicKey,
+        agent.wallet.publicKey
       ),
     });
     const userAccountExists = await user.exists();
@@ -334,19 +334,19 @@ export async function driftPerpTrade(
     }
 
     const market = driftClient.getMarketIndexAndType(
-      `${params.symbol.toUpperCase()}-PERP`,
+      `${params.symbol.toUpperCase()}-PERP`
     );
 
     if (!market) {
       throw new Error(
         `Token with symbol ${params.symbol} not found. Here's a list of available perp markets: ${MainnetPerpMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
     const baseAssetPrice = driftClient.getOracleDataForPerpMarket(
-      market.marketIndex,
+      market.marketIndex
     );
     const convertedAmount =
       params.amount / convertToNumber(baseAssetPrice.price, PRICE_PRECISION);
@@ -372,7 +372,7 @@ export async function driftPerpTrade(
         }),
         {
           computeUnitsPrice: 0.000001 * 1000000 * 1000000,
-        },
+        }
       );
     } else {
       signature = await driftClient.placePerpOrder(
@@ -387,7 +387,7 @@ export async function driftPerpTrade(
         }),
         {
           computeUnitsPrice: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS,
-        },
+        }
       );
     }
 
@@ -414,7 +414,7 @@ export async function doesUserHaveDriftAccount(agent: SolanaAgentKit) {
       driftClient,
       userAccountPublicKey: getUserAccountPublicKeySync(
         new PublicKey(DRIFT_PROGRAM_ID),
-        agent.wallet.publicKey,
+        agent.wallet.publicKey
       ),
     });
     await user.subscribe();
@@ -442,7 +442,7 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
     const { driftClient, cleanUp } = await initClients(agent);
     const userPublicKey = getUserAccountPublicKeySync(
       new PublicKey(DRIFT_PROGRAM_ID),
-      agent.wallet.publicKey,
+      agent.wallet.publicKey
     );
 
     const user = new User({
@@ -462,15 +462,15 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
       baseAssetAmount: convertToNumber(pos.baseAssetAmount, BASE_PRECISION),
       quoteAssetAmount: convertToNumber(
         pos.quoteAssetAmount.abs(),
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       quoteEntryAmount: convertToNumber(
         pos.quoteEntryAmount.abs(),
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       quoteBreakEvenAmount: convertToNumber(
         pos.quoteBreakEvenAmount.abs(),
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       settledPnl: convertToNumber(pos.settledPnl, QUOTE_PRECISION),
       openAsks: pos.openAsks.toNumber(),
@@ -483,7 +483,7 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
     }));
     const spotPositions = account.spotPositions.map((pos) => {
       const spotMarketAccount = driftClient.getSpotMarketAccount(
-        pos.marketIndex,
+        pos.marketIndex
       );
 
       if (!spotMarketAccount) {
@@ -493,7 +493,7 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
       const tokenBalance = getTokenAmount(
         pos.scaledBalance,
         spotMarketAccount,
-        pos.balanceType,
+        pos.balanceType
       );
 
       return {
@@ -501,7 +501,7 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
           (isVariant(pos.balanceType, "borrow") ? -1 : 1) *
           convertToNumber(
             tokenBalance,
-            MainnetSpotMarkets[pos.marketIndex].precision,
+            MainnetSpotMarkets[pos.marketIndex].precision
           ),
         symbol: MainnetSpotMarkets[pos.marketIndex].symbol,
         openAsks: pos.openAsks.toNumber(),
@@ -515,7 +515,7 @@ export async function driftUserAccountInfo(agent: SolanaAgentKit) {
     const unrealizedPnl = user.getUnrealizedPNL(true);
     const netUSDValue = convertToNumber(
       overallUserBalance.add(unrealizedPnl),
-      QUOTE_PRECISION,
+      QUOTE_PRECISION
     );
 
     await cleanUp();
@@ -560,19 +560,19 @@ export function getAvailableDriftPerpMarkets() {
 export async function stakeToDriftInsuranceFund(
   agent: SolanaAgentKit,
   amount: number,
-  symbol: string,
+  symbol: string
 ) {
   try {
     const { cleanUp, driftClient } = await initClients(agent);
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -580,13 +580,13 @@ export async function stakeToDriftInsuranceFund(
       getInsuranceFundStakeAccountPublicKey(
         driftClient.program.programId,
         agent.wallet.publicKey,
-        token.marketIndex,
+        token.marketIndex
       );
     let shouldCreateAccount = false;
 
     try {
       await driftClient.connection.getAccountInfo(
-        deriveInsuranceFundStakeAccount,
+        deriveInsuranceFundStakeAccount
       );
     } catch (e) {
       // @ts-expect-error - error message is a string
@@ -600,7 +600,7 @@ export async function stakeToDriftInsuranceFund(
       marketIndex: token.marketIndex,
       collateralAccountPublicKey: getAssociatedTokenAddressSync(
         token.mint,
-        agent.wallet.publicKey,
+        agent.wallet.publicKey
       ),
       initializeStakeAccount: shouldCreateAccount,
       txParams: {
@@ -625,26 +625,26 @@ export async function stakeToDriftInsuranceFund(
 export async function requestUnstakeFromDriftInsuranceFund(
   agent: SolanaAgentKit,
   amount: number,
-  symbol: string,
+  symbol: string
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
     const signature = await driftClient.requestRemoveInsuranceFundStake(
       token.marketIndex,
       numberToSafeBN(amount, token.precision),
-      { computeUnitsPrice: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS },
+      { computeUnitsPrice: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS }
     );
 
     await cleanUp();
@@ -662,19 +662,19 @@ export async function requestUnstakeFromDriftInsuranceFund(
  */
 export async function unstakeFromDriftInsuranceFund(
   agent: SolanaAgentKit,
-  symbol: string,
+  symbol: string
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -683,7 +683,7 @@ export async function unstakeFromDriftInsuranceFund(
       getAssociatedTokenAddressSync(token.mint, agent.wallet.publicKey),
       {
         computeUnitsPrice: MINIMUM_COMPUTE_PRICE_FOR_COMPLEX_ACTIONS,
-      },
+      }
     );
 
     await cleanUp();
@@ -717,30 +717,30 @@ export async function swapSpotToken(
     | {
         toAmount: number;
       }
-  ),
+  )
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
     const fromToken = MainnetSpotMarkets.find(
-      (v) => v.symbol === params.fromSymbol.toUpperCase(),
+      (v) => v.symbol === params.fromSymbol.toUpperCase()
     );
     const toToken = MainnetSpotMarkets.find(
-      (v) => v.symbol === params.toSymbol.toUpperCase(),
+      (v) => v.symbol === params.toSymbol.toUpperCase()
     );
 
     if (!fromToken) {
       throw new Error(
         `Token with symbol ${params.fromSymbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
     if (!toToken) {
       throw new Error(
         `Token with symbol ${params.toSymbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -754,6 +754,14 @@ export async function swapSpotToken(
       const res = await (
         await fetch(
           `https://quote-api.jup.ag/v6/quote?inputMint=${fromToken.mint}&outputMint=${toToken.mint}&amount=${fromAmount.toNumber()}&slippageBps=${(params.slippage ?? 0.5) * 100}&swapMode=ExactIn`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...(process.env.JUPITER_API_KEY && {
+                "x-api-key": process.env.JUPITER_API_KEY,
+              }),
+            },
+          }
         )
       ).json();
       const signature = await driftClient.swap({
@@ -778,7 +786,7 @@ export async function swapSpotToken(
       const toAmount = numberToSafeBN(params.toAmount, toToken.precision);
       const res = await (
         await fetch(
-          `https://quote-api.jup.ag/v6/quote?inputMint=${fromToken.mint}&outputMint=${toToken.mint}&amount=${toAmount.toNumber()}&slippageBps=${(params.slippage ?? 0.5) * 100}&swapMode=ExactOut`,
+          `https://quote-api.jup.ag/v6/quote?inputMint=${fromToken.mint}&outputMint=${toToken.mint}&amount=${toAmount.toNumber()}&slippageBps=${(params.slippage ?? 0.5) * 100}&swapMode=ExactOut`
         )
       ).json();
       const signature = await driftClient.swap({
@@ -817,7 +825,7 @@ export async function swapSpotToken(
 export function getFundingRateAsPercentage(rawFundingRate: anchor.BN) {
   return BigNum.from(
     rawFundingRate.mul(FUNDING_RATE_BUFFER_PRECISION),
-    FUNDING_RATE_PRECISION_EXP,
+    FUNDING_RATE_PRECISION_EXP
   ).toNum();
 }
 
@@ -829,19 +837,19 @@ export function getFundingRateAsPercentage(rawFundingRate: anchor.BN) {
 export async function calculatePerpMarketFundingRate(
   agent: SolanaAgentKit,
   marketSymbol: `${string}-PERP`,
-  period: "year" | "hour",
+  period: "year" | "hour"
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
     const market = driftClient.getMarketIndexAndType(
-      `${marketSymbol.toUpperCase()}`,
+      `${marketSymbol.toUpperCase()}`
     );
 
     if (!market) {
       throw new Error(
         `This market isn't available on the Drift Protocol. Here's a list of markets that are: ${MainnetPerpMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
@@ -856,7 +864,7 @@ export async function calculatePerpMarketFundingRate(
         marketAccount,
         driftClient.getOracleDataForPerpMarket(market.marketIndex),
         undefined,
-        new anchor.BN(Date.now()),
+        new anchor.BN(Date.now())
       );
 
     await cleanUp();
@@ -881,10 +889,10 @@ export async function calculatePerpMarketFundingRate(
     const absoluteShortFundingRateNum = Math.abs(shortFundingRateNum);
 
     const formattedLongRatePct = absoluteLongFundingRateNum.toFixed(
-      period === "hour" ? 5 : 2,
+      period === "hour" ? 5 : 2
     );
     const formattedShortRatePct = absoluteShortFundingRateNum.toFixed(
-      period === "hour" ? 5 : 2,
+      period === "hour" ? 5 : 2
     );
 
     const paymentUnit = period === "year" ? "% APR" : "%";
@@ -903,7 +911,7 @@ export async function calculatePerpMarketFundingRate(
   } catch (e) {
     throw new Error(
       // @ts-expect-error e.message is a string
-      `Something went wrong while trying to get the market's funding rate. Here's some more context: ${e.message}`,
+      `Something went wrong while trying to get the market's funding rate. Here's some more context: ${e.message}`
     );
   }
 }
@@ -912,7 +920,7 @@ export async function getL2OrderBook(marketSymbol: `${string}-PERP`) {
   try {
     const serializedOrderbook: RawL2Output = await (
       await fetch(
-        `https://dlob.drift.trade/l2?marketName=${marketSymbol.toUpperCase()}&includeOracle=true`,
+        `https://dlob.drift.trade/l2?marketName=${marketSymbol.toUpperCase()}&includeOracle=true`
       )
     ).json();
 
@@ -976,7 +984,7 @@ export async function getL2OrderBook(marketSymbol: `${string}-PERP`) {
 export async function getEntryQuoteOfPerpTrade(
   marketSymbol: `${string}-PERP`,
   amount: number,
-  type: "long" | "short",
+  type: "long" | "short"
 ) {
   try {
     const l2OrderBookData = await getL2OrderBook(marketSymbol);
@@ -985,25 +993,25 @@ export async function getEntryQuoteOfPerpTrade(
       numberToSafeBN(amount, BASE_PRECISION),
       type === "long" ? PositionDirection.LONG : PositionDirection.SHORT,
       BASE_PRECISION,
-      l2OrderBookData,
+      l2OrderBookData
     );
 
     return {
       entryPrice: convertToNumber(
         estimatedEntryPriceData.entryPrice,
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       priceImpact: convertToNumber(
         estimatedEntryPriceData.priceImpact,
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       bestPrice: convertToNumber(
         estimatedEntryPriceData.bestPrice,
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
       worstPrice: convertToNumber(
         estimatedEntryPriceData.worstPrice,
-        QUOTE_PRECISION,
+        QUOTE_PRECISION
       ),
     };
   } catch (e) {
@@ -1019,19 +1027,19 @@ export async function getEntryQuoteOfPerpTrade(
  */
 export async function getLendingAndBorrowAPY(
   agent: SolanaAgentKit,
-  symbol: string,
+  symbol: string
 ) {
   try {
     const { driftClient, cleanUp } = await initClients(agent);
     const token = MainnetSpotMarkets.find(
-      (v) => v.symbol === symbol.toUpperCase(),
+      (v) => v.symbol === symbol.toUpperCase()
     );
 
     if (!token) {
       throw new Error(
         `Token with symbol ${symbol} not found. Here's a list of available spot markets: ${MainnetSpotMarkets.map(
-          (v) => v.symbol,
-        ).join(", ")}`,
+          (v) => v.symbol
+        ).join(", ")}`
       );
     }
 
