@@ -30,8 +30,8 @@ import walletAddressAction from "./solana/actions/walletAddress";
 import mayanSwapAction from "./mayan/actions/swap";
 
 // pumpfun
-import launchPumpfunTokenAction from "./pumpfun/actions/launchPumpfunToken";
-import claimCreatorFeeAction from "./pumpfun/actions/claimCreatorFeeAction";
+// import launchPumpfunTokenAction from "./pumpfun/actions/launchPumpfunToken";
+// import claimCreatorFeeAction from "./pumpfun/actions/claimCreatorFeeAction";
 // pyth
 import pythFetchPriceAction from "./pyth/actions/pythFetchPrice";
 
@@ -137,8 +137,8 @@ const TokenPlugin = {
     requestFundsAction,
     transferAction,
     mayanSwapAction,
-    launchPumpfunTokenAction,
-    claimCreatorFeeAction,
+    // launchPumpfunTokenAction,
+    // claimCreatorFeeAction,
     pythFetchPriceAction,
     rugcheckAction,
     burnTokensUsingSolutiofiAction,
