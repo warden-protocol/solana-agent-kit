@@ -32,9 +32,15 @@ export async function createDebridgeBridgeOrder(
     srcChainOrderAuthorityAddress: params.account, // Always use sender's address
     srcChainRefundAddress: params.account, // Always use sender's address
     dstChainOrderAuthorityAddress: params.dstChainTokenOutRecipient, // Always use recipient's address
-    referralCode: "21064", // deBridge integration analytics
+    referralCode: params.referralCode?.toString() ?? "21064", // Use provided or default
     deBridgeApp: "SOLANA_AGENT_KIT", // deBridge integration analytics
     prependOperatingExpenses: "true", // Always true
+    ...(params.affiliateFeeRecipient && {
+      affiliateFeeRecipient: params.affiliateFeeRecipient,
+    }),
+    ...(params.affiliateFeePercent !== undefined && {
+      affiliateFeePercent: params.affiliateFeePercent.toString(),
+    }),
   });
 
   const response = await fetch(

@@ -58,6 +58,9 @@ export async function getBridgeQuote(
     ...(params.affiliateFeePercent && {
       affiliateFeePercent: params.affiliateFeePercent.toString(),
     }),
+    ...(params.affiliateFeeRecipient && {
+      affiliateFeeRecipient: params.affiliateFeeRecipient,
+    }),
   });
 
   const response = await fetch(

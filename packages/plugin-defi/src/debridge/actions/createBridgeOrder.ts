@@ -122,6 +122,10 @@ const createDebridgeBridgeOrderAction: Action = {
       .number()
       .optional()
       .describe("Optional: Affiliate fee percentage"),
+    affiliateFeeRecipient: z
+      .string()
+      .optional()
+      .describe("Optional: Affiliate fee recipient"),
   }),
   handler: async (agent: SolanaAgentKit, input: Record<string, any>) => {
     try {
@@ -147,6 +151,7 @@ const createDebridgeBridgeOrderAction: Action = {
         srcAllowedCancelBeneficiary: input.srcAllowedCancelBeneficiary,
         referralCode: input.referralCode,
         affiliateFeePercent: input.affiliateFeePercent,
+        affiliateFeeRecipient: input.affiliateFeeRecipient,
       });
 
       return {

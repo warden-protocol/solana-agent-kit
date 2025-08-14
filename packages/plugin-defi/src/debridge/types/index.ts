@@ -78,6 +78,7 @@ export interface deBridgeOrderInput {
   dstChainOrderAuthorityAddress?: string;
   prependOperatingExpenses?: boolean;
   deBridgeApp?: string;
+  affiliateFeeRecipient?: string;
 }
 
 export interface deBridgeOrderResponse {
