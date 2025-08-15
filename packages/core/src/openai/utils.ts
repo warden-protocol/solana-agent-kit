@@ -54,17 +54,22 @@ export interface OpenAITool {
 function mapZodTypeToJsonSchema(zodType: ZodTypeAny): JSONSchemaProperty {
   // --- Part 1: Handle nullability ---
   // Check if the type is nullable BEFORE unwrapping other types
-  const isNullable = zodType instanceof z.ZodNullable;
+  // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+  const isNullable = zodType?._def?.typeName === "ZodNullable";
   let coreType = isNullable ? zodType._def.innerType : zodType;
 
   // --- Part 2: Unwrap optional, default, and effect types ---
   while (
-    coreType instanceof z.ZodOptional ||
-    coreType instanceof z.ZodDefault ||
-    coreType instanceof z.ZodEffects
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (coreType?._def?.typeName === "ZodOptional") ||
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (coreType?._def?.typeName === "ZodDefault") ||
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (coreType?._def?.typeName === "ZodEffects")
   ) {
     coreType =
-      coreType instanceof z.ZodEffects
+      // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+      (coreType?._def?.typeName === "ZodEffects")
         ? coreType._def.schema
         : coreType._def.innerType;
   }
@@ -156,11 +161,27 @@ export function zodToOpenAITool<T extends ZodRawShape>(
   name: string,
   description: string,
 ): OpenAITool {
-  if (!(schema instanceof ZodObject)) {
+  // Normalize and unwrap to a ZodObject without relying on cross-bundle instanceof
+  let core: ZodTypeAny = schema as ZodTypeAny;
+  while (
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (core?._def?.typeName === "ZodEffects") ||
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (core?._def?.typeName === "ZodOptional") ||
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (core?._def?.typeName === "ZodDefault") ||
+    // @ts-ignore accessing _def for duck-typing to avoid cross-bundle instanceof issues
+    (core?._def?.typeName === "ZodNullable")
+  ) {
+    // @ts-ignore access runtime internals to unwrap
+    core = (core?._def?.typeName === "ZodEffects") ? core._def.schema : core._def.innerType;
+  }
+  // @ts-ignore duck-type on typeName
+  if (!core || !core._def || core._def.typeName !== "ZodObject") {
     throw new Error("The provided schema must be a ZodObject.");
   }
 
-  const shape = schema.shape;
+  const shape = (core as ZodObject<any>).shape;
   const properties: { [key: string]: JSONSchemaProperty } = {};
 
   for (const key in shape) {
