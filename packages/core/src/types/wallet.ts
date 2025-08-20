@@ -15,6 +15,29 @@ import {
   getComputeBudgetInstructions,
   sendTx,
 } from "../utils/send_tx";
+// Type guard to check if object is a VersionedTransaction (handles version mismatches)
+function isVersionedTransactionLike(obj: any): obj is VersionedTransaction {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'version' in obj &&
+    'message' in obj &&
+    'signatures' in obj &&
+    typeof obj.serialize === 'function'
+  );
+}
+
+// Type guard to check if object is a Transaction
+function isTransactionLike(obj: any): obj is Transaction {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'instructions' in obj &&
+    'recentBlockhash' in obj &&
+    typeof obj.serialize === 'function' &&
+    !('version' in obj)
+  );
+}
 
 /**
  * Interface representing a Solana wallet implementation
@@ -97,17 +120,21 @@ export async function signOrSendTX(
   | Transaction[]
   | VersionedTransaction[]
 > {
+
+
   if (
     Array.isArray(instructionsOrTransaction) &&
+    instructionsOrTransaction.length > 0 &&
     (instructionsOrTransaction[0] instanceof Transaction ||
-      instructionsOrTransaction[0] instanceof VersionedTransaction)
+      instructionsOrTransaction[0] instanceof VersionedTransaction ||
+      isTransactionLike(instructionsOrTransaction[0]) ||
+      isVersionedTransactionLike(instructionsOrTransaction[0]))
   ) {
     if (agent.config.signOnly) {
       return await agent.wallet.signAllTransactions(
         instructionsOrTransaction as Transaction[],
       );
     }
-
     const txSigs: string[] = [];
     for (const tx of instructionsOrTransaction) {
       if (agent.wallet.signAndSendTransaction) {
@@ -115,10 +142,11 @@ export async function signOrSendTX(
           tx as Transaction,
         );
         txSigs.push(signature);
+      } else {
+        throw new Error(
+          "Wallet does not support signAndSendTransaction please implement it manually or use the signOnly option",
+        );
       }
-      throw new Error(
-        "Wallet does not support signAndSendTransaction please implement it manually or use the signOnly option",
-      );
     }
 
     return txSigs;
@@ -126,7 +154,9 @@ export async function signOrSendTX(
 
   if (
     instructionsOrTransaction instanceof Transaction ||
-    instructionsOrTransaction instanceof VersionedTransaction
+    instructionsOrTransaction instanceof VersionedTransaction ||
+    isTransactionLike(instructionsOrTransaction) ||
+    isVersionedTransactionLike(instructionsOrTransaction)
   ) {
     if (agent.config.signOnly) {
       return await agent.wallet.signTransaction(instructionsOrTransaction);
@@ -142,7 +172,7 @@ export async function signOrSendTX(
       await agent.wallet.signAndSendTransaction(instructionsOrTransaction)
     ).signature;
   }
-
+  
   const ixComputeBudget = await getComputeBudgetInstructions(
     agent,
     instructionsOrTransaction as TransactionInstruction[],
@@ -163,7 +193,7 @@ export async function signOrSendTX(
   const transaction = new VersionedTransaction(messageV0);
   transaction.sign([...(otherKeypairs ?? [])] as Signer[]);
   const signedTransaction = await agent.wallet.signTransaction(transaction);
-
+  
   if (agent.config.signOnly) {
     return signedTransaction;
   }
