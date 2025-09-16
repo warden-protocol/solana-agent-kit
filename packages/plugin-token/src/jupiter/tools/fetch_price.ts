@@ -8,7 +8,7 @@ import type { PublicKey } from "@solana/web3.js";
 export async function fetchPrice(tokenId: PublicKey): Promise<string> {
   try {
     const response = await fetch(
-      `https://api.jup.ag/price/v2?ids=${tokenId.toBase58()}`,
+      `https://api.jup.ag/price/v3?ids=${tokenId.toBase58()}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export async function fetchPrice(tokenId: PublicKey): Promise<string> {
 
     const data = await response.json();
 
-    const price = data.data[tokenId.toBase58()]?.price;
+    const price = data[tokenId.toBase58()]?.usdPrice;
 
     if (!price) {
       throw new Error("Price data not available for the given token.");
