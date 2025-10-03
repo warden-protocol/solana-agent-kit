@@ -15,9 +15,9 @@ import { Plugin, SolanaAgentKit } from "solana-agent-kit";
 // } from "./adrena/tools";
 
 // Import Flash actions & tools
-import flashCloseTradeAction from "./flash/actions/flashCloseTrade";
-import flashOpenTradeAction from "./flash/actions/flashOpenTrade";
-import { flashCloseTrade, flashOpenTrade } from "./flash/tools";
+// import flashCloseTradeAction from "./flash/actions/flashCloseTrade";
+// import flashOpenTradeAction from "./flash/actions/flashOpenTrade";
+// import { flashCloseTrade, flashOpenTrade } from "./flash/tools";
 
 // Import Lulo actions & tools
 import lendAssetAction from "./lulo/actions/lendAsset";
@@ -149,37 +149,37 @@ import {
 } from "./voltr/tools";
 
 // Import Drift tools
-import {
-  calculatePerpMarketFundingRate,
-  createDriftUserAccount,
-  createVault,
-  depositIntoVault,
-  depositToDriftUserAccount,
-  deriveDriftVaultAddress,
-  doesUserHaveDriftAccount,
-  driftPerpTrade,
-  driftUserAccountInfo,
-  getAvailableDriftPerpMarkets,
-  getAvailableDriftSpotMarkets,
-  getEntryQuoteOfPerpTrade,
-  getFundingRateAsPercentage,
-  getL2OrderBook,
-  getLendingAndBorrowAPY,
-  getMarketIndexAndType,
-  getVaultAddress,
-  getVaultInfo,
-  requestUnstakeFromDriftInsuranceFund,
-  requestWithdrawalFromVault,
-  stakeToDriftInsuranceFund,
-  swapSpotToken,
-  tradeDriftVault,
-  unstakeFromDriftInsuranceFund,
-  updateVault,
-  updateVaultDelegate,
-  validateAndEncodeAddress,
-  withdrawFromDriftUserAccount,
-  withdrawFromDriftVault,
-} from "./drift/tools";
+// import {
+//   calculatePerpMarketFundingRate,
+//   createDriftUserAccount,
+//   createVault,
+//   depositIntoVault,
+//   depositToDriftUserAccount,
+//   deriveDriftVaultAddress,
+//   doesUserHaveDriftAccount,
+//   driftPerpTrade,
+//   driftUserAccountInfo,
+//   getAvailableDriftPerpMarkets,
+//   getAvailableDriftSpotMarkets,
+//   getEntryQuoteOfPerpTrade,
+//   getFundingRateAsPercentage,
+//   getL2OrderBook,
+//   getLendingAndBorrowAPY,
+//   getMarketIndexAndType,
+//   getVaultAddress,
+//   getVaultInfo,
+//   requestUnstakeFromDriftInsuranceFund,
+//   requestWithdrawalFromVault,
+//   stakeToDriftInsuranceFund,
+//   swapSpotToken,
+//   tradeDriftVault,
+//   unstakeFromDriftInsuranceFund,
+//   updateVault,
+//   updateVaultDelegate,
+//   validateAndEncodeAddress,
+//   withdrawFromDriftUserAccount,
+//   withdrawFromDriftVault,
+// } from "./drift/tools";
 
 import {
   sanctumAddLiquidityAction,
@@ -218,14 +218,14 @@ const DefiPlugin = {
   // Combine all tools
   methods: {
     // Adrena methods
-    openPerpTradeLong,
-    openPerpTradeShort,
-    closePerpTradeLong,
-    closePerpTradeShort,
+    // openPerpTradeLong,
+    // openPerpTradeShort,
+    // closePerpTradeLong,
+    // closePerpTradeShort,
 
-    // Flash methods
-    flashCloseTrade,
-    flashOpenTrade,
+    // // Flash methods
+    // flashCloseTrade,
+    // flashOpenTrade,
 
     // Lulo methods
     lendAsset,
@@ -268,35 +268,35 @@ const DefiPlugin = {
     voltrWithdrawStrategy,
 
     // Drift methods,
-    driftPerpTrade,
-    deriveDriftVaultAddress,
-    calculatePerpMarketFundingRate,
-    createDriftVault: createVault,
-    createDriftUserAccount,
-    depositIntoDriftVault: depositIntoVault,
-    depositToDriftUserAccount,
-    doesUserHaveDriftAccount,
-    driftUserAccountInfo,
-    getAvailableDriftPerpMarkets,
-    getAvailableDriftSpotMarkets,
-    getLendingAndBorrowAPY,
-    updateVault,
-    withdrawFromDriftVault,
-    withdrawFromDriftUserAccount,
-    requestWithdrawalFromVault,
-    updateDriftVaultDelegate: updateVaultDelegate,
-    getVaultInfo,
-    getVaultAddress,
-    tradeDriftVault,
-    swapSpotToken,
-    stakeToDriftInsuranceFund,
-    requestUnstakeFromDriftInsuranceFund,
-    unstakeFromDriftInsuranceFund,
-    getDriftMarketIndexAndType: getMarketIndexAndType,
-    getDriftFundingRateAsPercentage: getFundingRateAsPercentage,
-    getEntryQuoteOfDriftPerpTrade: getEntryQuoteOfPerpTrade,
-    validateAndEncodeDriftAddress: validateAndEncodeAddress,
-    getDriftL2OrderBook: getL2OrderBook,
+    // driftPerpTrade,
+    // deriveDriftVaultAddress,
+    // calculatePerpMarketFundingRate,
+    // createDriftVault: createVault,
+    // createDriftUserAccount,
+    // depositIntoDriftVault: depositIntoVault,
+    // depositToDriftUserAccount,
+    // doesUserHaveDriftAccount,
+    // driftUserAccountInfo,
+    // getAvailableDriftPerpMarkets,
+    // getAvailableDriftSpotMarkets,
+    // getLendingAndBorrowAPY,
+    // updateVault,
+    // withdrawFromDriftVault,
+    // withdrawFromDriftUserAccount,
+    // requestWithdrawalFromVault,
+    // updateDriftVaultDelegate: updateVaultDelegate,
+    // getVaultInfo,
+    // getVaultAddress,
+    // tradeDriftVault,
+    // swapSpotToken,
+    // stakeToDriftInsuranceFund,
+    // requestUnstakeFromDriftInsuranceFund,
+    // unstakeFromDriftInsuranceFund,
+    // getDriftMarketIndexAndType: getMarketIndexAndType,
+    // getDriftFundingRateAsPercentage: getFundingRateAsPercentage,
+    // getEntryQuoteOfDriftPerpTrade: getEntryQuoteOfPerpTrade,
+    // validateAndEncodeDriftAddress: validateAndEncodeAddress,
+    // getDriftL2OrderBook: getL2OrderBook,
 
     // Debridge methods,
     checkDebridgeTransactionStatus,
@@ -330,14 +330,14 @@ const DefiPlugin = {
   // Combine all actions
   actions: [
     // Adrena actions
-    openPerpTradeLongAction,
-    openPerpTradeShortAction,
-    closePerpTradeLongAction,
-    closePerpTradeShortAction,
+    // openPerpTradeLongAction,
+    // openPerpTradeShortAction,
+    // closePerpTradeLongAction,
+    // closePerpTradeShortAction,
 
     // Flash actions
-    flashCloseTradeAction,
-    flashOpenTradeAction,
+    // flashCloseTradeAction,
+    // flashOpenTradeAction,
 
     // Lulo actions
     lendAssetAction,
@@ -375,29 +375,29 @@ const DefiPlugin = {
     withdrawVoltrStrategyAction,
 
     // Drift actions
-    availableDriftMarketsAction,
-    createDriftUserAccountAction,
-    createVaultAction,
-    depositIntoDriftVaultAction,
-    depositToDriftUserAccountAction,
-    deriveDriftVaultAddressAction,
-    doesUserHaveDriftAccountAction,
-    driftUserAccountInfoAction,
-    entryQuoteOfDriftPerpTradeAction,
-    getDriftLendAndBorrowAPYAction,
-    driftPerpMarketFundingRateAction,
-    requestUnstakeFromDriftInsuranceFundAction,
-    vaultInfoAction,
-    withdrawFromDriftVaultAction,
-    withdrawFromDriftAccountAction,
-    updateDriftVaultAction,
-    updateDriftVaultDelegateAction,
-    unstakeFromDriftInsuranceFundAction,
-    tradeDriftPerpAccountAction,
-    tradeDelegatedDriftVaultAction,
-    swapSpotTokenOnDriftAction,
-    stakeToDriftInsuranceFundAction,
-    requestWithdrawalFromDriftVaultAction,
+    // availableDriftMarketsAction,
+    // createDriftUserAccountAction,
+    // createVaultAction,
+    // depositIntoDriftVaultAction,
+    // depositToDriftUserAccountAction,
+    // deriveDriftVaultAddressAction,
+    // doesUserHaveDriftAccountAction,
+    // driftUserAccountInfoAction,
+    // entryQuoteOfDriftPerpTradeAction,
+    // getDriftLendAndBorrowAPYAction,
+    // driftPerpMarketFundingRateAction,
+    // requestUnstakeFromDriftInsuranceFundAction,
+    // vaultInfoAction,
+    // withdrawFromDriftVaultAction,
+    // withdrawFromDriftAccountAction,
+    // updateDriftVaultAction,
+    // updateDriftVaultDelegateAction,
+    // unstakeFromDriftInsuranceFundAction,
+    // tradeDriftPerpAccountAction,
+    // tradeDelegatedDriftVaultAction,
+    // swapSpotTokenOnDriftAction,
+    // stakeToDriftInsuranceFundAction,
+    // requestWithdrawalFromDriftVaultAction,
 
     // Debridge actions
     checkDebridgeTransactionStatusAction,
