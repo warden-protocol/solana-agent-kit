@@ -39,7 +39,7 @@ export async function trade(
       : (await getMintInfo(agent.connection, inputMint.toBase58())).decimals;
 
     // Calculate the correct amount based on actual decimals
-    const scaledAmount = inputAmount * Math.pow(10, inputDecimals);
+    const scaledAmount = Math.floor(inputAmount * Math.pow(10, inputDecimals));
 
         // Determine fee account if Jupiter fee is configured
         let feeAccount: string | null = null;
