@@ -6,7 +6,6 @@ import {
 } from "solana-agent-kit";
 import {
   DEFAULT_OPTIONS,
-  JUP_API,
   JUP_REFERRAL_ADDRESS,
   TOKENS,
 } from "./utils/constants";
@@ -42,7 +41,7 @@ export async function trade(
 
     const quoteResponse = await (
       await fetch(
-        `${JUP_API}/quote?` +
+        `https://api.jup.ag/swap/v1/quote?` +
           `inputMint=${isNativeSol ? TOKENS.SOL.toString() : inputMint.toString()}` +
           `&outputMint=${outputMint.toString()}` +
           `&amount=${scaledAmount}` +
@@ -77,7 +76,7 @@ export async function trade(
     }
 
     const { swapTransaction } = await (
-      await fetch("https://quote-api.jup.ag/v6/swap", {
+      await fetch("https://api.jup.ag/swap/v1/swap", {
         method: "POST",
           headers: {
             "Content-Type": "application/json",
