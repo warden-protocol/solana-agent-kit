@@ -25,7 +25,6 @@ export const DEFAULT_OPTIONS = {
 /**
  * Jupiter API URL
  */
-export const JUP_API = "https://quote-api.jup.ag/v6";
 export const JUP_REFERRAL_ADDRESS =
   "REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3";
 
