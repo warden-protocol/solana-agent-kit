@@ -71,9 +71,12 @@ export async function trade(
     const { swapTransaction } = await (
       await fetch("https://quote-api.jup.ag/v6/swap", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+          headers: {
+            "Content-Type": "application/json",
+            ...(process.env.JUPITER_API_KEY && {
+              "x-api-key": process.env.JUPITER_API_KEY,
+            }),
+          },
         body: JSON.stringify({
           quoteResponse,
           userPublicKey: agent.wallet.publicKey.toString(),

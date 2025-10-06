@@ -10,9 +10,12 @@ import type {
 
 const jupiterApi = axios.create({
   baseURL: "https://api.jup.ag/limit/v2",
-  headers: {
-    "Content-Type": "application/json",
-  },
+    headers: {
+      "Content-Type": "application/json",
+      ...(process.env.JUPITER_API_KEY && {
+        "x-api-key": process.env.JUPITER_API_KEY,
+      }),
+    },
 });
 
 async function handleApiRequest<T>(
