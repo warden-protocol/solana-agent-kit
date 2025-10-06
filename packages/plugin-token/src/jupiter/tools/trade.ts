@@ -52,6 +52,14 @@ export async function trade(
           `&maxAccounts=64` +
           `&swapMode=ExactIn` +
           `${agent.config?.JUPITER_FEE_BPS ? `&platformFeeBps=${agent.config?.JUPITER_FEE_BPS}` : ""}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...(process.env.JUPITER_API_KEY && {
+                "x-api-key": process.env.JUPITER_API_KEY,
+              }),
+            },
+          }
       )
     ).json();
 
