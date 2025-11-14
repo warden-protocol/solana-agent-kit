@@ -19,7 +19,9 @@ export async function getTokenMetadata(
 
   const metadata = await connection.getAccountInfo(metadataPDA);
   if (!metadata?.data) {
-    throw new Error("Metadata not found");
+    //throw new Error("Metadata not found");
+    console.log("Metadata not found!");
+    return null;
   }
 
   let offset = 1 + 32 + 32; // key + update auth + mint

@@ -40,6 +40,17 @@ export async function get_token_balance(
     removedZeroBalance.map(async (v: any) => {
       const mint = v.account.data.parsed.info.mint;
       const mintInfo = await getTokenMetadata(agent.connection, mint);
+      // If metadata is not found, return Null values to not let the tool fail
+      if (!mintInfo) {
+        return {
+          tokenAddress: mint,
+          name: "NULL",
+          symbol: "NULL",
+          balance: v.account.data.parsed.info.tokenAmount.uiAmount as number,
+          decimals: v.account.data.parsed.info.tokenAmount.decimals as number,
+        };
+      }
+      // Normal return
       return {
         tokenAddress: mint,
         name: mintInfo.name ?? "",
