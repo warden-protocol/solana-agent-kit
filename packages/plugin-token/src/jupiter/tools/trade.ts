@@ -39,7 +39,7 @@ export async function trade(
       : (await getMintInfo(agent.connection, inputMint.toBase58())).decimals;
 
     // Calculate the correct amount based on actual decimals
-    const scaledAmount = inputAmount * Math.pow(10, inputDecimals);
+    const scaledAmount = BigInt(Math.floor(inputAmount * Math.pow(10, inputDecimals)));
 
         // Determine fee account if Jupiter fee is configured
         let feeAccount: string | null = null;
@@ -121,9 +121,10 @@ export async function trade(
           `&onlyDirectRoutes=false` +
           `&maxAccounts=64` +
           `&swapMode=ExactIn` +
+          `&instructionVersion=V2` +
           `${agent.config?.JUPITER_FEE_BPS ? `&platformFeeBps=${agent.config?.JUPITER_FEE_BPS}` : ""}`,
-          {
-            headers: {
+        {
+          headers: {
               "Content-Type": "application/json",
               ...(process.env.JUPITER_API_KEY && {
                 "x-api-key": process.env.JUPITER_API_KEY,
@@ -132,7 +133,10 @@ export async function trade(
           }
       )
     ).json();
-
+    
+    if (quoteResponse.error) {
+      throw new Error(`An error occurred while getting the quote: ${quoteResponse.error}`);
+    }
 
     const { swapTransaction } = await (
       await fetch("https://api.jup.ag/swap/v1/swap", {
