@@ -92,15 +92,17 @@ function parseMetaplexMetadata(
     const decoder = new TextDecoder();
 
     const readString = () => {
+      // Skip padding/zero bytes to find the actual length byte
+      while (offset < data.length && data[offset] === 0) {
+        offset++;
+      }
+
       if (offset >= data.length) {
         return null;
       }
+
       const nameLength = data[offset];
       offset++;
-
-      if (nameLength === 0) {
-        return "";
-      }
 
       if (offset + nameLength > data.length) {
         return null;
@@ -117,7 +119,8 @@ function parseMetaplexMetadata(
     const symbol = readString();
     const uri = readString();
 
-    if (name && symbol) {
+    // Ensure name and symbol are non-null and non-empty
+    if (name && symbol && name.length > 0 && symbol.length > 0) {
       return { name, symbol, uri: uri || undefined };
     }
   } catch (error) {
