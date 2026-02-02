@@ -1,6 +1,6 @@
 import {
   createAssociatedTokenAccountInstruction,
-  createTransferInstruction,
+  createTransferCheckedInstruction,
   getAccount,
   getAssociatedTokenAddress,
   getMint,
@@ -42,15 +42,29 @@ export async function transfer(
       tx = await signOrSendTX(agent, transaction.instructions);
     } else {
       const transaction = new Transaction();
+
+      const mintAccountInfo = await agent.connection.getAccountInfo(mint);
+      if (!mintAccountInfo) {
+        throw new Error("Mint account not found");
+      }
+      const tokenProgramId = mintAccountInfo.owner;
+
       // Transfer SPL token
       const fromAta = await getAssociatedTokenAddress(
         mint,
         agent.wallet.publicKey,
+        false,
+        tokenProgramId,
       );
-      const toAta = await getAssociatedTokenAddress(mint, to);
+      const toAta = await getAssociatedTokenAddress(
+        mint,
+        to,
+        false,
+        tokenProgramId,
+      );
 
       try {
-        await getAccount(agent.connection, toAta);
+        await getAccount(agent.connection, toAta, undefined, tokenProgramId);
       } catch {
         // Error is thrown if the tokenAccount doesn't exist
         transaction.add(
@@ -59,20 +73,30 @@ export async function transfer(
             toAta,
             to,
             mint,
+            tokenProgramId,
           ),
         );
       }
 
       // Get mint info to determine decimals
-      const mintInfo = await getMint(agent.connection, mint);
-      const adjustedAmount = amount * Math.pow(10, mintInfo.decimals);
+      const mintInfo = await getMint(
+        agent.connection,
+        mint,
+        undefined,
+        tokenProgramId,
+      );
+      const adjustedAmount = BigInt(Math.round(amount * Math.pow(10, mintInfo.decimals)));
 
       transaction.add(
-        createTransferInstruction(
+        createTransferCheckedInstruction(
           fromAta,
+          mint,
           toAta,
           agent.wallet.publicKey,
           adjustedAmount,
+          mintInfo.decimals,
+          [],
+          tokenProgramId,
         ),
       );
 
